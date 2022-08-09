@@ -118,7 +118,7 @@ func (r *Assert) Empty() *Assert {
 
 func conditionExists(t *testing.T, col *mongo.Collection, documents ...interface{}) {
 	for _, document := range documents {
-		_, err := col.UpdateOne(context.TODO(), document, options.Update().SetUpsert(true))
+		_, err := col.UpdateOne(context.TODO(), document, bson.M{"$set": document}, options.Update().SetUpsert(true))
 		if err != nil {
 			t.Fatalf("can not ensure document [%#v] in collection [%v]: %v", document, col.Name(), err)
 		}
